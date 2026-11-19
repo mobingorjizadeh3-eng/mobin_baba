@@ -3,24 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Mobin Hack App</title>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap');
-
 :root {
     --green: #00ff88;
     --dark: #020805;
     --panel: rgba(0,255,100,.055);
 }
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
 body {
     background: var(--dark);
     color: #d5ffe5;
@@ -28,7 +23,6 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 }
-
 canvas {
     position: fixed;
     inset: 0;
@@ -37,7 +31,6 @@ canvas {
     z-index: -2;
     opacity: .25;
 }
-
 body::before {
     content: "";
     position: fixed;
@@ -47,7 +40,6 @@ body::before {
     z-index: -1;
     pointer-events: none;
 }
-
 .scanlines {
     position: fixed;
     inset: 0;
@@ -59,19 +51,16 @@ body::before {
         transparent 3px
     );
 }
-
 .container {
     width: 92%;
     max-width: 900px;
     margin: auto;
     padding: 30px 0;
 }
-
 .header {
     text-align: center;
     margin: 35px 0;
 }
-
 .logo {
     font-size: 42px;
     color: var(--green);
@@ -79,7 +68,6 @@ body::before {
     text-shadow: 0 0 20px var(--green);
     animation: glow 2s infinite alternate;
 }
-
 .subtitle {
     color: #6ba989;
     font-size: 12px;
@@ -87,12 +75,10 @@ body::before {
     margin-top: 5px;
     direction: ltr;
 }
-
 @keyframes glow {
     from { text-shadow: 0 0 5px #00ff88; }
     to { text-shadow: 0 0 30px #00ff88, 0 0 50px #00ff88; }
 }
-
 .panel {
     background: rgba(0,20,10,.88);
     border: 1px solid rgba(0,255,136,.35);
@@ -103,23 +89,19 @@ body::before {
     margin-bottom: 20px;
     animation: appear .7s ease;
 }
-
 @keyframes appear {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 h2 {
     color: var(--green);
     margin-bottom: 20px;
     font-size: 21px;
 }
-
 p {
     color: #91bba2;
     line-height: 2;
 }
-
 button {
     background: rgba(0,255,100,.08);
     border: 1px solid var(--green);
@@ -131,34 +113,28 @@ button {
     cursor: pointer;
     transition: .3s;
 }
-
 button:hover {
     background: var(--green);
     color: black;
     box-shadow: 0 0 25px var(--green);
     transform: translateY(-3px);
 }
-
 .center {
     text-align: center;
 }
-
 .full {
     width: 100%;
     margin-top: 20px;
 }
-
 .hidden {
     display: none !important;
 }
-
 .status {
     color: var(--green);
     font-size: 12px;
     direction: ltr;
     text-align: left;
 }
-
 .badge {
     display: inline-block;
     padding: 5px 12px;
@@ -168,7 +144,6 @@ button:hover {
     font-size: 11px;
     margin-bottom: 15px;
 }
-
 .demo {
     color: #ffd166;
     border: 1px solid #806522;
@@ -178,7 +153,6 @@ button:hover {
     margin: 15px 0;
     line-height: 2;
 }
-
 .info {
     display: flex;
     justify-content: space-between;
@@ -189,11 +163,9 @@ button:hover {
     border-radius: 8px;
     margin-bottom: 20px;
 }
-
 .info strong {
     color: var(--green);
 }
-
 .message {
     display: flex;
     justify-content: space-between;
@@ -207,18 +179,15 @@ button:hover {
     margin: 12px 0;
     animation: appear .6s ease;
 }
-
 .message code {
     color: var(--green);
     font-size: 17px;
     direction: ltr;
 }
-
 .message span {
     color: #74a78b;
     font-size: 12px;
 }
-
 .terminal {
     background: #000;
     border: 1px solid #14512e;
@@ -232,16 +201,13 @@ button:hover {
     margin-top: 20px;
     min-height: 110px;
 }
-
 .loading {
     color: var(--green);
     animation: blink 1s infinite;
 }
-
 @keyframes blink {
     50% { opacity: .3; }
 }
-
 .graph {
     height: 120px;
     display: flex;
@@ -252,7 +218,6 @@ button:hover {
     border-bottom: 1px solid #14512e;
     margin: 25px 0;
 }
-
 .graph span {
     width: 5px;
     height: 15px;
@@ -261,20 +226,16 @@ button:hover {
     box-shadow: 0 0 10px var(--green);
     animation: wave .6s infinite alternate;
 }
-
 .graph span:nth-child(2n) { animation-delay: .2s; }
 .graph span:nth-child(3n) { animation-delay: .4s; }
-
 @keyframes wave {
     from { height: 10px; opacity: .3; }
     to { height: 100px; opacity: 1; }
 }
-
 .message-content {
     color: #e1ffe9;
     font-size: 16px;
 }
-
 .warning {
     border: 1px solid #a57a20;
     background: rgba(255,180,0,.07);
@@ -284,338 +245,209 @@ button:hover {
     margin-top: 20px;
     line-height: 2;
 }
-
 .footer {
     text-align: center;
     color: #37634a;
     font-size: 11px;
     padding: 30px 0;
 }
-
 </style>
 </head>
-
 <body>
-
-<canvas id="matrix"></canvas>
 <div class="scanlines"></div>
-
 <div class="container">
-
 <header class="header">
     <div class="logo">MOBIN HACK</div>
     <div class="subtitle">ADVANCED DIGITAL INTERFACE</div>
 </header>
-
 <!-- LOGIN -->
-
 <section id="login" class="panel center">
-
-    <span class="badge">SYSTEM ONLINE</span>
-
-    <h2>خوش آمدید به Mobin Hack App</h2>
-
-    <p>
-        سیستم آماده اجراست.
-        برای ورود به پنل اصلی اقدام کنید.
-    </p>
-
-    <div class="demo">
-        DEMO MODE — این محیط تستی هست    .
-    </div>
-
-    <button class="full" onclick="enterPanel()">
-        ورود به پنل
-    </button>
-
-    <div class="status" style="margin-top:20px">
-        SYSTEM STATUS: OPERATIONAL
-    </div>
-
+<span class="badge">SYSTEM ONLINE</span>
+<h2>خوش آمدید به Mobin Hack App</h2>
+<p>
+    سیستم آماده اجراست.
+    برای ورود به پنل اصلی اقدام کنید.
+</p>
+<div class="demo">
+    DEMO MODE — این محیط تستی هست    .
+</div>
+<button class="full" onclick="enterPanel()">
+    ورود به پنل
+</button>
+<div class="status" style="margin-top:20px">
+    SYSTEM STATUS: OPERATIONAL
+</div>
 </section>
-
-
 <!-- INBOX -->
-
 <section id="inbox" class="panel hidden">
-
-    <span class="badge">INBOX CONNECTED</span>
-
-    <h2>پنل مدیریت پیام‌ها</h2>
-
-    <div class="info">
-        <div>
-            <p>شناسه کاربر</p>
-            <strong>09122486989</strong>
-        </div>
-
-        <div>
-            <p>وضعیت سیستم</p>
-            <strong>ONLINE ●</strong>
-        </div>
-
-        <div>
-            <p>تعداد پیام‌ها</p>
-            <strong>04 MESSAGES</strong>
-        </div>
+<span class="badge">INBOX CONNECTED</span>
+<h2>پنل مدیریت پیام‌ها</h2>
+<div class="info">
+    <div>
+        <p>شناسه کاربر</p>
+        <strong>09122486989</strong>
     </div>
-
-    <h2>آرشیو پیام‌ها</h2>
-
-    <div id="codes"></div>
-
-    <button class="full" onclick="decrypt()">
-        ⚡ شروع رمزگشایی با هوش مصنوعی
-    </button>
-
+    <div>
+        <p>وضعیت سیستم</p>
+        <strong>ONLINE ●</strong>
+    </div>
+    <div>
+        <p>تعداد پیام‌ها</p>
+        <strong>07 MESSAGES</strong>
+    </div>
+</div>
+<h2>آرشیو پیام‌ها</h2>
+<div id="codes"></div>
+<button class="full" onclick="decrypt()">
+    ⚡ شروع رمزگشایی با هوش مصنوعی
+</button>
 </section>
-
-
 <!-- DECRYPTION -->
-
 <section id="decrypt" class="panel hidden center">
-
-    <span class="badge">AI ENGINE ACTIVATED</span>
-
-    <h2>موتور رمزگشایی هوشمند</h2>
-
-    <div class="terminal" id="terminal">
-        > Initializing AI Engine...<br>
-        > Establishing connection...<br>
-        > Waiting for response...
-    </div>
-
-    <h2 style="margin-top:25px">
-        در حال رمزگشایی پیام‌ها
-    </h2>
-
-    <p id="aiStatus">
-        اتصال به موتور هوش مصنوعی...
-    </p>
-
-    <div class="graph" id="graph"></div>
-
-    <p class="loading">
-        PLEASE WAIT...
-    </p>
-
+<span class="badge">AI ENGINE ACTIVATED</span>
+<h2>موتور رمزگشایی هوشمند</h2>
+<div class="terminal" id="terminal">
+    > Initializing AI Engine...<br>
+    > Establishing connection...<br>
+    > Waiting for response...
+</div>
+<h2 style="margin-top:25px">
+    در حال رمزگشایی پیام‌ها
+</h2>
+<p id="aiStatus">
+    اتصال به موتور هوش مصنوعی...
+</p>
+<div class="graph" id="graph"></div>
+<p class="loading">
+    PLEASE WAIT...
+</p>
 </section>
-
-
 <!-- RESULTS -->
-
 <section id="results" class="panel hidden">
+<span class="badge">DECRYPTION COMPLETED</span>
+<h2>نتیجه رمزگشایی</h2>
+<div class="terminal">
+    > AI ENGINE: SUCCESS<br>
+    > DECRYPTION: COMPLETED<br>
+    > MESSAGES FOUND: 07<br>
+    > STATUS: READY
+</div>
+<div id="resultsList"></div>
+<div class="warning">
+    ⚠️ هشدار امنیتی
+    <br>
+    به دلیل فرایند رمزگشایی، احتمال دارد
+    بعضی از پیام‌ها با محتوای اصلی متفاوت باشند.
+</div>
+<div class="demo">
 
-    <span class="badge">DECRYPTION COMPLETED</span>
-
-    <h2>نتیجه رمزگشایی</h2>
-
-    <div class="terminal">
-        > AI ENGINE: SUCCESS<br>
-        > DECRYPTION: COMPLETED<br>
-        > MESSAGES FOUND: 04<br>
-        > STATUS: READY
-    </div>
-
-    <div id="resultsList"></div>
-
-    <div class="warning">
-        ⚠️ هشدار امنیتی
-
-        <br>
-
-        به دلیل فرایند رمزگشایی، احتمال دارد
-        بعضی از پیام‌ها با محتوای اصلی متفاوت باشند.
-    </div>
-
-    <div class="demo">
 اسپانسر : Mobin_VPN
-    </div>
-
-    <button class="full" onclick="location.reload()">
-        بازگشت به صفحه اصلی
-    </button>
-
+<button class="full" onclick="location.reload()">
+    بازگشت به صفحه اصلی
+</button>
 </section>
-
-
 <footer class="footer">
     MOBIN HACK APP © 2026
     <br>
     ADVANCED DIGITAL INTERFACE
 </footer>
-
 </div>
-
-
 <script>
-
 // MATRIX BACKGROUND
-
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
-
 let width, height;
 let columns;
 let drops;
-
 function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
-
     columns = Math.floor(width / 17);
     drops = Array(columns).fill(1);
 }
-
 resize();
 window.addEventListener("resize", resize);
-
 function drawMatrix() {
-
     ctx.fillStyle = "rgba(2,8,5,0.09)";
     ctx.fillRect(0, 0, width, height);
-
     ctx.fillStyle = "#00ff66";
     ctx.font = "14px monospace";
-
     for(let i = 0; i < drops.length; i++) {
-
         const text = Math.random() > .5 ? "1" : "0";
-
         ctx.fillText(text, i * 17, drops[i] * 17);
-
         if(drops[i] * 17 > height && Math.random() > .975) {
             drops[i] = 0;
         }
-
         drops[i]++;
     }
 }
-
 setInterval(drawMatrix, 45);
-
-
 // MESSAGES
-
 const messages = [
-    ،"سکس باید احساسی باشه",
-    ،"چیکار کنم من تو خیلی شلی",
-    ،"از اکسم یاد بگیر اون خیلی جویگیر بود",
-  ،"شما خیلی زیبایی"
-"❤️"،
-"😔"،
-"EROR 000"
+    "سکس باید احساسی باشه",
+    "چیکار کنم من تو خیلی شلی",
+    "از اکسم یاد بگیر اون خیلی جویگیر بود",
+    "شما خیلی زیبایی",
+    "❤️",
+    "😔",
+    "EROR 000"
 ];
-
 let codes = [];
-
 function generateCodes() {
-
     codes = messages.map(() => {
-
         return String(
             Math.floor(10000000000 + Math.random() * 90000000000)
         );
-
     });
-
 }
-
-
 // NAVIGATION
-
 function enterPanel() {
-
     document.getElementById("login").classList.add("hidden");
-
     document.getElementById("inbox").classList.remove("hidden");
-
     generateCodes();
-
     const box = document.getElementById("codes");
-
     box.innerHTML = "";
-
     codes.forEach((code, index) => {
-
         box.innerHTML += `
             <div class="message">
                 <span>MESSAGE ${index + 1}</span>
                 <code>${code}</code>
             </div>
         `;
-
     });
-
 }
-
-
 // GRAPH
-
 function createGraph() {
-
     const graph = document.getElementById("graph");
-
     graph.innerHTML = "";
-
     for(let i = 0; i < 35; i++) {
-
         const bar = document.createElement("span");
-
         graph.appendChild(bar);
-
     }
-
 }
-
-
 // DECRYPTION
-
 function decrypt() {
-
     document.getElementById("inbox").classList.add("hidden");
-
     document.getElementById("decrypt").classList.remove("hidden");
-
     createGraph();
-
     const terminal = document.getElementById("terminal");
-
     const status = document.getElementById("aiStatus");
-
     const logs = [
-
         "> Loading artificial intelligence...",
-
         "> Connecting to AI engine...",
-
         "> Initializing decryption module...",
-
         "> Analyzing encrypted data...",
-
         "> Processing message structures...",
-
         "> Recovering message contents...",
-
         "> Finalizing operation..."
-
     ];
-
     let index = 0;
-
     const logInterval = setInterval(() => {
-
         if(index < logs.length) {
-
             terminal.innerHTML += "<br>" + logs[index];
-
             index++;
-
         }
-
     }, 5000);
-
-
     const statuses = [
         "اتصال به موتور هوش مصنوعی...",
         "راه‌اندازی موتور رمزگشایی...",
@@ -624,60 +456,34 @@ function decrypt() {
         "بازیابی اطلاعات...",
         "تکمیل عملیات..."
     ];
-
     let statusIndex = 0;
-
     const statusInterval = setInterval(() => {
-
         if(statusIndex < statuses.length) {
-
             status.innerText = statuses[statusIndex];
-
             statusIndex++;
-
         }
-
     }, 6500);
-
-
     setTimeout(() => {
-
         clearInterval(logInterval);
         clearInterval(statusInterval);
-
         document.getElementById("decrypt").classList.add("hidden");
-
         document.getElementById("results").classList.remove("hidden");
-
         const resultBox = document.getElementById("resultsList");
-
         resultBox.innerHTML = "";
-
         messages.forEach((message, index) => {
-
             const element = document.createElement("div");
-
             element.className = "message";
-
             const title = document.createElement("span");
             title.innerText = "MESSAGE " + (index + 1);
-
             const content = document.createElement("div");
             content.className = "message-content";
             content.innerText = message;
-
             element.appendChild(title);
             element.appendChild(content);
-
             resultBox.appendChild(element);
-
         });
-
     }, 40000);
-
 }
-
 </script>
-
 </body>
 </html>
