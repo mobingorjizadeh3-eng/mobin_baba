@@ -3,820 +3,703 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Mobin Hack App</title>
-
+<title>زبان Mobin — رمزنگاری مخفی</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap');
+  /* ---------- پایه ---------- */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root {
-    --green: #00ff88;
-    --dark: #020805;
-    --panel: rgba(0,255,100,.055);
-}
+  :root {
+    --bg1: #0f0c29;
+    --bg2: #302b63;
+    --bg3: #24243e;
+    --accent: #00f0ff;
+    --accent2: #ff00e5;
+    --accent3: #7b2ff7;
+    --ok: #00ff88;
+    --err: #ff3b6b;
+    --glass: rgba(255,255,255,0.07);
+    --glass-brd: rgba(255,255,255,0.15);
+  }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background: var(--dark);
-    color: #d5ffe5;
-    font-family: Vazirmatn, sans-serif;
-    min-height: 100vh;
+  html, body {
+    min-height: 100%;
+    font-family: 'Segoe UI', Tahoma, 'Vazirmatn', sans-serif;
+    background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    background-size: 400% 400%;
+    animation: bgShift 18s ease infinite;
+    color: #fff;
     overflow-x: hidden;
-}
+  }
 
-canvas {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    opacity: .25;
-}
+  @keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background:
-    radial-gradient(circle at center, transparent, #020805 85%);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.scanlines {
+  /* ---------- ذرات پس‌زمینه ---------- */
+  .particles {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 10;
-    background: repeating-linear-gradient(
-        transparent 0px,
-        rgba(0,255,100,.018) 1px,
-        transparent 3px
-    );
-}
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent), transparent 70%);
+    opacity: 0.35;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
+  }
 
-.container {
-    width: 92%;
-    max-width: 900px;
-    margin: auto;
-    padding: 30px 0;
-}
-
-.header {
-    text-align: center;
-    margin: 35px 0;
-}
-
-.logo {
-    font-size: 42px;
-    color: var(--green);
-    font-weight: 900;
-    text-shadow: 0 0 20px var(--green);
-    animation: glow 2s infinite alternate;
-}
-
-.subtitle {
-    color: #6ba989;
-    font-size: 12px;
-    letter-spacing: 4px;
-    margin-top: 5px;
-    direction: ltr;
-}
-
-@keyframes glow {
-    from { text-shadow: 0 0 5px #00ff88; }
-    to { text-shadow: 0 0 30px #00ff88, 0 0 50px #00ff88; }
-}
-
-.panel {
-    background: rgba(0,20,10,.88);
-    border: 1px solid rgba(0,255,136,.35);
-    border-radius: 15px;
-    padding: 28px;
-    box-shadow: 0 0 30px rgba(0,255,100,.08);
-    backdrop-filter: blur(12px);
-    margin-bottom: 20px;
-    animation: appear .7s ease;
-}
-
-@keyframes appear {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-h2 {
-    color: var(--green);
-    margin-bottom: 20px;
-    font-size: 21px;
-}
-
-p {
-    color: #91bba2;
-    line-height: 2;
-}
-
-button {
-    background: rgba(0,255,100,.08);
-    border: 1px solid var(--green);
-    color: var(--green);
-    padding: 14px 25px;
-    border-radius: 9px;
-    font-family: inherit;
-    font-size: 15px;
-    cursor: pointer;
-    transition: .3s;
-}
-
-button:hover {
-    background: var(--green);
-    color: black;
-    box-shadow: 0 0 25px var(--green);
-    transform: translateY(-3px);
-}
-
-.center {
-    text-align: center;
-}
-
-.full {
-    width: 100%;
-    margin-top: 20px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.status {
-    color: var(--green);
-    font-size: 12px;
-    direction: ltr;
-    text-align: left;
-}
-
-.badge {
-    display: inline-block;
-    padding: 5px 12px;
-    background: rgba(0,255,100,.1);
-    color: var(--green);
-    border-radius: 5px;
-    font-size: 11px;
-    margin-bottom: 15px;
-}
-
-.demo {
-    color: #ffd166;
-    border: 1px solid #806522;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    margin: 15px 0;
-    line-height: 2;
-}
-
-.info {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding: 15px;
-    border: 1px solid #124d2e;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.info strong {
-    color: var(--green);
-}
-
-.message {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    background: var(--panel);
-    border: 1px solid #14512e;
-    padding: 16px;
-    border-radius: 9px;
-    margin: 12px 0;
-    animation: appear .6s ease;
-}
-
-.message code {
-    color: var(--green);
-    font-size: 17px;
-    direction: ltr;
-}
-
-.message span {
-    color: #74a78b;
-    font-size: 12px;
-}
-
-.terminal {
-    background: #000;
-    border: 1px solid #14512e;
-    padding: 18px;
-    border-radius: 8px;
-    font-family: monospace;
-    direction: ltr;
-    text-align: left;
-    line-height: 2;
-    color: var(--green);
-    margin-top: 20px;
-    min-height: 110px;
-}
-
-.loading {
-    color: var(--green);
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    50% { opacity: .3; }
-}
-
-.graph {
-    height: 120px;
-    display: flex;
+  /* ---------- صفحه‌ها ---------- */
+  .screen {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    overflow: hidden;
-    border-bottom: 1px solid #14512e;
-    margin: 25px 0;
-}
-
-.graph span {
-    width: 5px;
-    height: 15px;
-    background: var(--green);
-    border-radius: 5px;
-    box-shadow: 0 0 10px var(--green);
-    animation: wave .6s infinite alternate;
-}
-
-.graph span:nth-child(2n) { animation-delay: .2s; }
-.graph span:nth-child(3n) { animation-delay: .4s; }
-
-@keyframes wave {
-    from { height: 10px; opacity: .3; }
-    to { height: 100px; opacity: 1; }
-}
-
-.message-content {
-    color: #e1ffe9;
-    font-size: 16px;
-}
-
-.warning {
-    border: 1px solid #a57a20;
-    background: rgba(255,180,0,.07);
-    color: #ffd166;
-    padding: 17px;
-    border-radius: 9px;
-    margin-top: 20px;
-    line-height: 2;
-}
-
-.footer {
+    padding: 24px;
     text-align: center;
-    color: #37634a;
-    font-size: 11px;
-    padding: 30px 0;
-}
+  }
+  .screen.active {
+    display: flex;
+    animation: screenIn 0.9s cubic-bezier(.2,.9,.2,1);
+  }
+  @keyframes screenIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); filter: blur(8px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
 
-/* PASSWORD INPUT (THEME MATCHED) */
-
-.pass-input {
+  /* ---------- کارت شیشه‌ای ---------- */
+  .card {
+    background: var(--glass);
+    border: 1px solid var(--glass-brd);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 28px;
+    padding: 48px 40px;
+    max-width: 760px;
     width: 100%;
-    padding: 15px 18px;
-    background: rgba(0,255,100,.05);
-    border: 1px solid rgba(0,255,136,.5);
-    border-radius: 9px;
-    color: var(--green);
-    font-family: monospace;
-    font-size: 22px;
-    letter-spacing: 12px;
-    text-align: center;
-    direction: ltr;
-    outline: none;
-    transition: .3s;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+    animation: cardPop 1s cubic-bezier(.2,.9,.2,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(0,240,255,0.15), transparent, rgba(255,0,229,0.15), transparent);
+    animation: rotateGlow 8s linear infinite;
+    pointer-events: none;
+  }
+  .card > * { position: relative; z-index: 1; }
+  @keyframes rotateGlow { to { transform: rotate(360deg); } }
+  @keyframes cardPop {
+    from { opacity: 0; transform: scale(0.9) translateY(30px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* ---------- تایتل نئونی ---------- */
+  h1 {
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shineText 5s linear infinite;
+    font-weight: 800;
+  }
+  @keyframes shineText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  /* ---------- دکمه‌ها ---------- */
+  .btn {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 16px 46px;
+    border-radius: 60px;
+    background: linear-gradient(135deg, var(--accent3), var(--accent2));
+    background-size: 200% 200%;
+    box-shadow: 0 8px 30px rgba(123,47,247,0.5), 0 0 0 0 rgba(0,240,255,0.7);
+    transition: transform 0.25s cubic-bezier(.2,.9,.2,1), box-shadow 0.3s, background-position 0.5s;
+    animation: pulseGlow 2.5s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    transition: left 0.6s;
+  }
+  .btn:hover::after { left: 100%; }
+  .btn:hover {
+    transform: translateY(-4px) scale(1.06);
+    background-position: 100% 50%;
+    box-shadow: 0 14px 40px rgba(255,0,229,0.6), 0 0 30px rgba(0,240,255,0.4);
+  }
+  .btn:active { transform: scale(0.96); }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 8px 30px rgba(123,47,247,0.5), 0 0 0 0 rgba(0,240,255,0.5); }
+    50% { box-shadow: 0 8px 30px rgba(255,0,229,0.6), 0 0 0 14px rgba(0,240,255,0); }
+  }
+
+  /* ---------- صفحه انتخاب ---------- */
+  .options {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
     margin-top: 10px;
-}
+  }
+  .option-card {
+    cursor: pointer;
+    background: var(--glass);
+    border: 1px solid var(--glass-brd);
+    border-radius: 24px;
+    padding: 36px 30px;
+    width: 240px;
+    transition: transform 0.3s cubic-bezier(.2,.9,.2,1), box-shadow 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  .option-card:nth-child(2) { animation-delay: 0.8s; }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .option-card:hover {
+    transform: translateY(-14px) scale(1.05);
+    border-color: var(--accent);
+    box-shadow: 0 20px 50px rgba(0,240,255,0.35);
+  }
+  .option-card .icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    display: block;
+    animation: wobble 3s ease-in-out infinite;
+  }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg) scale(1.1); }
+    75% { transform: rotate(8deg) scale(1.1); }
+  }
+  .option-card h2 { font-size: 1.3rem; margin-bottom: 10px; color: var(--accent); }
+  .option-card p { font-size: 0.95rem; opacity: 0.8; }
 
-.pass-input::placeholder {
-    color: #2d5c43;
-    letter-spacing: 6px;
-    font-size: 14px;
-}
+  /* ---------- فرم ---------- */
+  .form-screen .card { max-width: 680px; }
+  .back-btn {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--glass-brd);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 8px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
 
-.pass-input:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 20px rgba(0,255,136,.35);
-    background: rgba(0,255,100,.09);
-}
+  textarea {
+    width: 100%;
+    min-height: 130px;
+    margin: 20px 0;
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid var(--glass-brd);
+    background: rgba(0,0,0,0.35);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1.05rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(0,240,255,0.2), 0 0 25px rgba(0,240,255,0.3);
+  }
+  textarea::placeholder { color: rgba(255,255,255,0.4); }
 
-.pass-error {
-    color: #ff5c5c;
-    font-size: 12px;
-    margin-top: 12px;
-    min-height: 16px;
-    direction: rtl;
-}
+  /* ---------- لودینگ ---------- */
+  .loader {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .loader.show { display: flex; animation: screenIn 0.4s ease; }
+  .spinner {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.15);
+    border-top-color: var(--accent);
+    border-right-color: var(--accent2);
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader p { font-size: 1.05rem; opacity: 0.9; }
+  .countdown {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent);
+    animation: countPulse 1s ease-in-out infinite;
+  }
+  @keyframes countPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+  }
 
-.shake {
-    animation: shake .4s;
-}
+  /* ---------- نتیجه ---------- */
+  .result {
+    display: none;
+    margin-top: 24px;
+    padding: 22px;
+    border-radius: 18px;
+    font-size: 1.15rem;
+    line-height: 1.9;
+    word-break: break-word;
+    animation: resultPop 0.6s cubic-bezier(.2,.9,.2,1);
+  }
+  .result.show { display: block; }
+  .result.ok {
+    background: rgba(0,255,136,0.12);
+    border: 1px solid rgba(0,255,136,0.5);
+    box-shadow: 0 0 30px rgba(0,255,136,0.2);
+    color: var(--ok);
+  }
+  .result.err {
+    background: rgba(255,59,107,0.12);
+    border: 1px solid rgba(255,59,107,0.5);
+    box-shadow: 0 0 30px rgba(255,59,107,0.2);
+    color: var(--err);
+    animation: shake 0.5s ease, resultPop 0.6s cubic-bezier(.2,.9,.2,1);
+  }
+  @keyframes resultPop {
+    from { opacity: 0; transform: scale(0.92) translateY(15px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-7px); }
+    80% { transform: translateX(7px); }
+  }
 
-@keyframes shake {
-    0%,100% { transform: translateX(0); }
-    20% { transform: translateX(-8px); }
-    40% { transform: translateX(8px); }
-    60% { transform: translateX(-6px); }
-    80% { transform: translateX(6px); }
-}
+  /* ---------- کپی ---------- */
+  .copy-btn {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--glass-brd);
+    color: #fff;
+    font-family: inherit;
+    padding: 10px 24px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
 
+  /* ---------- ریسپانسیو ---------- */
+  @media (max-width: 600px) {
+    .card { padding: 32px 22px; border-radius: 22px; }
+    .options { gap: 18px; }
+    .option-card { width: 100%; }
+  }
+
+  /* احترام به کاهش انیمیشن */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
 </style>
 </head>
-
 <body>
 
-<canvas id="matrix"></canvas>
-<div class="scanlines"></div>
+<!-- ذرات پس‌زمینه -->
+<div class="particles" id="particles"></div>
 
-<div class="container">
-
-<header class="header">
-    <div class="logo">MOBIN HACK</div>
-    <div class="subtitle">ADVANCED DIGITAL INTERFACE</div>
-</header>
-
-<!-- LOGIN -->
-
-<section id="login" class="panel center">
-
-    <span class="badge">SYSTEM ONLINE</span>
-
-    <h2>خوش آمدید به Mobin Hack App</h2>
-
-    <p>
-        سیستم آماده اجراست.
-        برای ورود به پنل اصلی اقدام کنید.
-    </p>
-
-    <div class="demo">
-        DEMO MODE — این محیط تستی هست    .
-    </div>
-
-    <button class="full" onclick="showPassword()">
-        ورود به پنل
-    </button>
-
-    <div class="status" style="margin-top:20px">
-        SYSTEM STATUS: OPERATIONAL
-    </div>
-
+<!-- ============ صفحه ۱: خوش‌آمد ============ -->
+<section class="screen active" id="screen-home">
+  <div class="card">
+    <h1>
+      سلام ! تو هم دوست داری پیام هات رمزنگاری شده ارسال بشه؟<br>
+      خب پس ما کمکت میکنیم 😎<br>
+      ما یه زبان رمز نگاری اختراع کردیم فعلا فقط برای حروف اینگیلیسی ،<br>
+      که متن ورودیت رو تبدیل به عدد و عدد ورودیت رو تبدیل به حروف میکنه<br>
+      این یعنی تو و دوستت می تونید مخفیانه با هم صحبت کنید !<br>
+      اگه دوست داری دکمه زیر رو بزن 👇
+    </h1>
+    <button class="btn" id="enterBtn">ورود 🚀</button>
+  </div>
 </section>
 
-<!-- PASSWORD -->
-
-<section id="password" class="panel center hidden">
-
-    <span class="badge">SECURITY LAYER</span>
-
-    <h2>احراز هویت</h2>
-
-    <p>
-        برای دسترسی به پنل مدیریت، رمز عبور را وارد کنید.
-    </p>
-
-    <input
-        type="password"
-        id="passInput"
-        class="pass-input"
-        placeholder="ENTER PASSWORD"
-        maxlength="4"
-        autocomplete="off"
-    >
-
-    <div class="pass-error" id="passError"></div>
-
-    <button class="full" onclick="checkPassword()">
-        🔓 تأیید و ورود
-    </button>
-
-    <button class="full" onclick="backToLogin()" style="margin-top:10px">
-        بازگشت
-    </button>
-
-    <div class="status" style="margin-top:20px">
-        SECURE CONNECTION: ACTIVE
+<!-- ============ صفحه ۲: انتخاب ============ -->
+<section class="screen" id="screen-choose">
+  <div class="card">
+    <h1>چه کاری برات انجام بدیم؟</h1>
+    <div class="options">
+      <div class="option-card" data-mode="decode">
+        <span class="icon">🔓</span>
+        <h2>رمز گشایی</h2>
+        <p>تبدیل عدد به حروف</p>
+      </div>
+      <div class="option-card" data-mode="encode">
+        <span class="icon">🔐</span>
+        <h2>رمز نگاری</h2>
+        <p>تبدیل حروف به عدد</p>
+      </div>
     </div>
-
+  </div>
 </section>
 
-<!-- INBOX -->
+<!-- ============ صفحه ۳: فرم ============ -->
+<section class="screen form-screen" id="screen-form">
+  <div class="card">
+    <button class="back-btn" id="backBtn">→ برگشت</button>
+    <h1 id="formTitle">رمز گشایی</h1>
+    <textarea id="inputArea" placeholder=""></textarea>
+    <button class="btn" id="submitBtn">تایید ✅</button>
 
-<section id="inbox" class="panel hidden">
-
-    <span class="badge">INBOX CONNECTED</span>
-
-    <h2>پنل مدیریت پیام‌ها</h2>
-
-    <div class="info">
-        <div>
-            <p>شناسه کاربر</p>
-            <strong>09122486989</strong>
-        </div>
-
-        <div>
-            <p>وضعیت سیستم</p>
-            <strong>ONLINE ●</strong>
-        </div>
-
-        <div>
-            <p>تعداد پیام‌ها</p>
-            <strong>17 MESSAGES</strong>
-        </div>
+    <!-- لودینگ -->
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <p id="loaderText">در حال رمزگشایی...</p>
+      <div class="countdown" id="countdown">۷</div>
     </div>
 
-    <h2>آرشیو پیام‌ها</h2>
-
-    <div id="codes"></div>
-
-    <button class="full" onclick="decrypt()">
-        ⚡ شروع رمزگشایی با هوش مصنوعی
-    </button>
-
+    <!-- نتیجه -->
+    <div class="result" id="result"></div>
+    <button class="copy-btn" id="copyBtn" style="display:none;">📋 کپی نتیجه</button>
+  </div>
 </section>
-
-<!-- DECRYPTION -->
-
-<section id="decrypt" class="panel hidden center">
-
-    <span class="badge">AI ENGINE ACTIVATED</span>
-
-    <h2>موتور رمزگشایی هوشمند</h2>
-
-    <div class="terminal" id="terminal">
-        > Initializing AI Engine...<br>
-        > Establishing connection...<br>
-        > Waiting for response...
-    </div>
-
-    <h2 style="margin-top:25px">
-        در حال رمزگشایی پیام‌ها
-    </h2>
-
-    <p id="aiStatus">
-        اتصال به موتور هوش مصنوعی...
-    </p>
-
-    <div class="graph" id="graph"></div>
-
-    <p class="loading">
-        PLEASE WAIT...
-    </p>
-
-</section>
-
-<!-- RESULTS -->
-
-<section id="results" class="panel hidden">
-
-    <span class="badge">DECRYPTION COMPLETED</span>
-
-    <h2>نتیجه رمزگشایی</h2>
-
-    <div class="terminal">
-        > AI ENGINE: SUCCESS<br>
-        > DECRYPTION: COMPLETED<br>
-        > MESSAGES FOUND: 17<br>
-        > STATUS: READY
-    </div>
-
-    <div id="resultsList"></div>
-
-    <div class="warning">
-        ⚠️ هشدار امنیتی
-
-        <br>
-
-        به دلیل فرایند رمزگشایی، احتمال دارد
-        بعضی از پیام‌ها با محتوای اصلی متفاوت باشند.
-    </div>
-
-    <div class="demo">
-اسپانسر : Mobin_VPN
-    </div>
-
-    <button class="full" onclick="location.reload()">
-        بازگشت به صفحه اصلی
-    </button>
-
-</section>
-
-<footer class="footer">
-    MOBIN HACK APP © 2026
-    <br>
-    ADVANCED DIGITAL INTERFACE
-</footer>
-
-</div>
 
 <script>
+/* =========================================================
+   جدول زبان Mobin — نسخه 1.0
+   ========================================================= */
+const MOBIN = {
+  'A': '19',
+  'B': '855578',
+  'C': '12',
+  'D': '11',
+  'E': '99',
+  'F': '96',
+  'G': '82',
+  'H': '55',
+  'I': '85858',
+  'J': '1000',
+  'K': '183',
+  'L': '1973',
+  'M': '109278',
+  'N': '1873926',
+  'O': '09388',
+  'P': '1126',
+  'Q': '0101',
+  'R': '298',
+  'S': '029',
+  'T': '126',
+  'U': '2983',
+  'V': '9852',
+  'W': '838',
+  'X': '1201',
+  'Y': '2982',
+  'Z': '85'
+};
+const REVERSE = {};
+for (const [k, v] of Object.entries(MOBIN)) REVERSE[v] = k;
 
-// MATRIX BACKGROUND
+/* =========================================================
+   ذرات پس‌زمینه
+   ========================================================= */
+(function createParticles() {
+  const container = document.getElementById('particles');
+  const count = 28;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 60 + 10;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (Math.random() * 12 + 10) + 's';
+    p.style.animationDelay = (Math.random() * 12) + 's';
+    const colors = ['rgba(0,240,255,0.5)', 'rgba(255,0,229,0.5)', 'rgba(123,47,247,0.5)'];
+    p.style.background = 'radial-gradient(circle, ' + colors[i % 3] + ', transparent 70%)';
+    container.appendChild(p);
+  }
+})();
 
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+/* =========================================================
+   ناوبری صفحه‌ها
+   ========================================================= */
+const screens = {
+  home: document.getElementById('screen-home'),
+  choose: document.getElementById('screen-choose'),
+  form: document.getElementById('screen-form')
+};
 
-let width, height;
-let columns;
-let drops;
-
-function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-
-    columns = Math.max(1, Math.floor(width / 17));
-    drops = Array(columns).fill(1);
+function showScreen(name) {
+  Object.values(screens).forEach(s => s.classList.remove('active'));
+  screens[name].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-resize();
-window.addEventListener("resize", resize);
+/* =========================================================
+   وضعیت فعلی
+   ========================================================= */
+let currentMode = 'decode'; // decode | encode
+let countdownTimer = null;
+let lastResultText = '';
 
-function drawMatrix() {
+const formTitle = document.getElementById('formTitle');
+const inputArea = document.getElementById('inputArea');
+const submitBtn = document.getElementById('submitBtn');
+const loader = document.getElementById('loader');
+const loaderText = document.getElementById('loaderText');
+const countdownEl = document.getElementById('countdown');
+const resultEl = document.getElementById('result');
+const copyBtn = document.getElementById('copyBtn');
 
-    ctx.fillStyle = "rgba(2,8,5,0.09)";
-    ctx.fillRect(0, 0, width, height);
-
-    ctx.fillStyle = "#00ff66";
-    ctx.font = "14px monospace";
-
-    for (let i = 0; i < drops.length; i++) {
-
-        const text = Math.random() > .5 ? "1" : "0";
-
-        ctx.fillText(text, i * 17, drops[i] * 17);
-
-        if (drops[i] * 17 > height && Math.random() > .975) {
-            drops[i] = 0;
-        }
-
-        drops[i]++;
-    }
-}
-
-setInterval(drawMatrix, 45);
-
-// MESSAGES (17 items)
-
-const messages = [
-    "سکس باید احساسی باشه",
-    "چیکار کنم من تو خیلی شلی",
-    "از اکسم یاد بگیر اون خیلی جویگیر بود",
-    "شما خیلی زیبایی",
-    "❤️",
-    "😔",
-    "ERROR 000",
-    "بیداری؟",
-    "فدات",
-    "نه درست میگی",
-    "منم خوابم نمیبره",
-    "با کی بودی مادر قهوه",
-    "پول ما رو خوردی",
-    "نوش جان",
-    "خودت بدتری",
-    "اینا فکر میکنن بقیه دارن تورو اذیت میکنن",
-    "ERROR 001"
-];
-
-let codes = [];
-
-function generateCodes() {
-
-    codes = messages.map(() => {
-
-        return String(
-            Math.floor(10000000000 + Math.random() * 90000000000)
-        );
-
-    });
-
-}
-
-// PASSWORD GATE
-
-const CORRECT_PASSWORD = "1239";
-
-function showPassword() {
-
-    document.getElementById("login").classList.add("hidden");
-
-    document.getElementById("password").classList.remove("hidden");
-
-    const input = document.getElementById("passInput");
-    input.value = "";
-    document.getElementById("passError").innerText = "";
-    input.focus();
-
-}
-
-function backToLogin() {
-
-    document.getElementById("password").classList.add("hidden");
-
-    document.getElementById("login").classList.remove("hidden");
-
-}
-
-function checkPassword() {
-
-    const input = document.getElementById("passInput");
-    const error = document.getElementById("passError");
-    const panel = document.getElementById("password");
-
-    if (input.value.trim() === CORRECT_PASSWORD) {
-
-        error.innerText = "";
-
-        enterPanel();
-
-    } else {
-
-        error.innerText = "رمز عبور اشتباه است. دوباره تلاش کنید.";
-
-        panel.classList.remove("shake");
-        void panel.offsetWidth;
-        panel.classList.add("shake");
-
-        input.value = "";
-        input.focus();
-
-    }
-
-}
-
-document.addEventListener("keydown", (e) => {
-
-    if (e.key === "Enter") {
-
-        const passPanel = document.getElementById("password");
-
-        if (!passPanel.classList.contains("hidden")) {
-            checkPassword();
-        }
-
-    }
-
+/* =========================================================
+   دکمه‌ها
+   ========================================================= */
+document.getElementById('enterBtn').addEventListener('click', () => {
+  showScreen('choose');
 });
 
-// NAVIGATION
-
-function enterPanel() {
-
-    document.getElementById("password").classList.add("hidden");
-
-    document.getElementById("inbox").classList.remove("hidden");
-
-    generateCodes();
-
-    const box = document.getElementById("codes");
-
-    box.innerHTML = "";
-
-    codes.forEach((code, index) => {
-
-        box.innerHTML += `
-            <div class="message">
-                <span>MESSAGE ${index + 1}</span>
-                <code>${code}</code>
-            </div>
-        `;
-
-    });
-
-}
-
-// GRAPH
-
-function createGraph() {
-
-    const graph = document.getElementById("graph");
-
-    graph.innerHTML = "";
-
-    for (let i = 0; i < 35; i++) {
-
-        const bar = document.createElement("span");
-
-        graph.appendChild(bar);
-
+document.querySelectorAll('.option-card').forEach(card => {
+  card.addEventListener('click', () => {
+    currentMode = card.dataset.mode;
+    resetForm();
+    if (currentMode === 'decode') {
+      formTitle.textContent = '🔓 رمز گشایی (عدد → حرف)';
+      inputArea.placeholder = 'کدها را با فاصله وارد کن، مثلاً:\n19 855578 12\nبرای فاصله بین کلمات از / استفاده کن';
+      loaderText.textContent = 'در حال رمزگشایی...';
+    } else {
+      formTitle.textContent = '🔐 رمز نگاری (حرف → عدد)';
+      inputArea.placeholder = 'متن انگلیسی خود را وارد کن، مثلاً:\nHELLO WORLD';
+      loaderText.textContent = 'در حال رمزنگاری...';
     }
+    showScreen('form');
+  });
+});
 
+document.getElementById('backBtn').addEventListener('click', () => {
+  clearTimers();
+  showScreen('choose');
+});
+
+copyBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(lastResultText);
+    copyBtn.textContent = '✅ کپی شد!';
+    setTimeout(() => { copyBtn.textContent = '📋 کپی نتیجه'; }, 1800);
+  } catch {
+    copyBtn.textContent = '❌ کپی نشد';
+  }
+});
+
+/* =========================================================
+   ریست فرم
+   ========================================================= */
+function resetForm() {
+  clearTimers();
+  inputArea.value = '';
+  inputArea.disabled = false;
+  submitBtn.style.display = '';
+  loader.classList.remove('show');
+  resultEl.className = 'result';
+  resultEl.textContent = '';
+  copyBtn.style.display = 'none';
+  lastResultText = '';
 }
 
-// DECRYPTION
+function clearTimers() {
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+}
 
-function decrypt() {
+/* =========================================================
+   اعتبارسنجی ورودی
+   ========================================================= */
+function validateEncode(text) {
+  if (!text.trim()) return 'متن خالی است! چیزی وارد کن.';
+  // فقط حروف انگلیسی و فاصله مجاز است
+  const bad = text.match(/[^A-Za-z\s]/g);
+  if (bad) {
+    const unique = [...new Set(bad)].join(' ');
+    return 'کاراکتر(های) غیرمجاز: ' + unique + '\nفقط حروف انگلیسی و فاصله مجاز است.';
+  }
+  return null;
+}
 
-    document.getElementById("inbox").classList.add("hidden");
+function validateDecode(text) {
+  if (!text.trim()) return 'کد خالی است! کدها را وارد کن.';
+  const tokens = text.split(/\s+/);
+  const unknown = [];
+  for (const t of tokens) {
+    if (t === '/') continue;
+    if (!REVERSE[t]) unknown.push(t);
+  }
+  if (unknown.length) {
+    return 'کد(های) نامعتبر: ' + unknown.slice(0, 5).join(', ') +
+           (unknown.length > 5 ? ' ...' : '') +
+           '\nکدها را با فاصله و دقیقاً مطابق جدول وارد کن.';
+  }
+  return null;
+}
 
-    document.getElementById("decrypt").classList.remove("hidden");
+/* =========================================================
+   تبدیل‌ها
+   ========================================================= */
+function encodeText(text) {
+  const out = [];
+  for (const ch of text.toUpperCase()) {
+    if (ch === ' ' || ch === '\n') out.push('/');
+    else if (MOBIN[ch]) out.push(MOBIN[ch]);
+    else out.push('?');
+  }
+  return out.join(' ');
+}
 
-    createGraph();
+function decodeText(text) {
+  const out = [];
+  for (const t of text.split(/\s+/)) {
+    if (t === '/') out.push(' ');
+    else if (REVERSE[t]) out.push(REVERSE[t]);
+    else out.push('?');
+  }
+  return out.join('');
+}
 
-    const terminal = document.getElementById("terminal");
+/* =========================================================
+   ارسال فرم
+   ========================================================= */
+submitBtn.addEventListener('click', () => {
+  clearTimers();
+  resultEl.className = 'result';
+  resultEl.textContent = '';
+  copyBtn.style.display = 'none';
 
-    const status = document.getElementById("aiStatus");
+  const raw = inputArea.value;
 
-    const logs = [
-        "> Loading artificial intelligence...",
-        "> Connecting to AI engine...",
-        "> Initializing decryption module...",
-        "> Analyzing encrypted data...",
-        "> Processing message structures...",
-        "> Recovering message contents...",
-        "> Finalizing operation..."
-    ];
+  // --- رمزنگاری: فوری ---
+  if (currentMode === 'encode') {
+    const err = validateEncode(raw);
+    if (err) {
+      showError(err);
+      return;
+    }
+    inputArea.disabled = true;
+    submitBtn.style.display = 'none';
+    loader.classList.add('show');
+    loaderText.textContent = 'در حال رمزنگاری...';
+    countdownEl.style.display = 'none';
 
-    let logIndex = 0;
-
-    const logInterval = setInterval(() => {
-
-        if (logIndex < logs.length) {
-            terminal.innerHTML += "<br>" + logs[logIndex];
-            logIndex++;
-        }
-
-    }, 5000);
-
-    const statuses = [
-        "اتصال به موتور هوش مصنوعی...",
-        "راه‌اندازی موتور رمزگشایی...",
-        "تحلیل ساختار پیام‌ها...",
-        "پردازش داده‌های رمزگذاری شده...",
-        "بازیابی اطلاعات...",
-        "تکمیل عملیات..."
-    ];
-
-    let statusIndex = 0;
-
-    const statusInterval = setInterval(() => {
-
-        if (statusIndex < statuses.length) {
-            status.innerText = statuses[statusIndex];
-            statusIndex++;
-        }
-
-    }, 6500);
-
+    // انیمیشن کوتاه برای حس خوب
     setTimeout(() => {
+      loader.classList.remove('show');
+      const code = encodeText(raw);
+      lastResultText = code;
+      resultEl.className = 'result ok show';
+      resultEl.innerHTML = '🔐 کد شما:<br><span style="font-size:1.3rem;font-weight:800;letter-spacing:1px;">' + escapeHtml(code) + '</span>';
+      copyBtn.style.display = 'inline-block';
+    }, 1200);
+    return;
+  }
 
-        clearInterval(logInterval);
-        clearInterval(statusInterval);
+  // --- رمزگشایی: ۷ ثانیه ---
+  const err = validateDecode(raw);
+  if (err) {
+    showError(err);
+    return;
+  }
 
-        document.getElementById("decrypt").classList.add("hidden");
+  inputArea.disabled = true;
+  submitBtn.style.display = 'none';
+  loader.classList.add('show');
+  loaderText.textContent = 'در حال رمزگشایی...';
+  countdownEl.style.display = '';
 
-        document.getElementById("results").classList.remove("hidden");
+  let remaining = 7;
+  countdownEl.textContent = toPersianNum(remaining);
 
-        const resultBox = document.getElementById("resultsList");
+  countdownTimer = setInterval(() => {
+    remaining--;
+    if (remaining > 0) {
+      countdownEl.textContent = toPersianNum(remaining);
+    } else {
+      clearTimers();
+      loader.classList.remove('show');
+      const decoded = decodeText(raw);
+      lastResultText = decoded;
+      resultEl.className = 'result ok show';
+      resultEl.innerHTML = '🔓 معنی کد:<br><span style="font-size:1.4rem;font-weight:800;">' + escapeHtml(decoded) + '</span>';
+      copyBtn.style.display = 'inline-block';
+    }
+  }, 1000);
+});
 
-        resultBox.innerHTML = "";
-
-        messages.forEach((message, idx) => {
-
-            const element = document.createElement("div");
-
-            element.className = "message";
-
-            const title = document.createElement("span");
-            title.innerText = "MESSAGE " + (idx + 1);
-
-            const content = document.createElement("div");
-            content.className = "message-content";
-            content.innerText = message;
-
-            element.appendChild(title);
-            element.appendChild(content);
-
-            resultBox.appendChild(element);
-
-        });
-
-    }, 40000);
-
+/* =========================================================
+   نمایش خطا
+   ========================================================= */
+function showError(msg) {
+  resultEl.className = 'result err show';
+  resultEl.innerHTML = '❌ ' + escapeHtml(msg).replace(/\n/g, '<br>');
+  copyBtn.style.display = 'none';
 }
 
-</script>
+/* =========================================================
+   کمکی‌ها
+   ========================================================= */
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
 
+function toPersianNum(n) {
+  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+/* =========================================================
+   میان‌بر: Enter در textarea = تایید
+   ========================================================= */
+inputArea.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    submitBtn.click();
+  }
+});
+</script>
 </body>
 </html>
