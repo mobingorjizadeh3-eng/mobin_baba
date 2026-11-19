@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>زبان Mobin — رمزنگاری مخفی</title>
+<title>زبان Mobin 2.0 — رمزنگاری مخفی</title>
 <style>
-  /* ---------- پایه ---------- */
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
@@ -37,20 +36,13 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* ---------- ذرات پس‌زمینه ---------- */
   .particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0; overflow: hidden;
   }
   .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--accent), transparent 70%);
-    opacity: 0.35;
-    animation: floatUp linear infinite;
+    position: absolute; border-radius: 50%;
+    opacity: 0.35; animation: floatUp linear infinite;
   }
   @keyframes floatUp {
     0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
@@ -59,28 +51,18 @@
     100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
   }
 
-  /* ---------- صفحه‌ها ---------- */
   .screen {
-    position: relative;
-    z-index: 2;
-    min-height: 100vh;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    text-align: center;
+    position: relative; z-index: 2; min-height: 100vh;
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px; text-align: center;
   }
-  .screen.active {
-    display: flex;
-    animation: screenIn 0.9s cubic-bezier(.2,.9,.2,1);
-  }
+  .screen.active { display: flex; animation: screenIn 0.9s cubic-bezier(.2,.9,.2,1); }
   @keyframes screenIn {
     from { opacity: 0; transform: translateY(40px) scale(0.97); filter: blur(8px); }
     to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
   }
 
-  /* ---------- کارت شیشه‌ای ---------- */
   .card {
     background: var(--glass);
     border: 1px solid var(--glass-brd);
@@ -88,21 +70,17 @@
     -webkit-backdrop-filter: blur(18px);
     border-radius: 28px;
     padding: 48px 40px;
-    max-width: 760px;
-    width: 100%;
+    max-width: 780px; width: 100%;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
     animation: cardPop 1s cubic-bezier(.2,.9,.2,1);
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .card::before {
     content: '';
-    position: absolute;
-    top: -50%; left: -50%;
+    position: absolute; top: -50%; left: -50%;
     width: 200%; height: 200%;
     background: conic-gradient(from 0deg, transparent, rgba(0,240,255,0.15), transparent, rgba(255,0,229,0.15), transparent);
-    animation: rotateGlow 8s linear infinite;
-    pointer-events: none;
+    animation: rotateGlow 8s linear infinite; pointer-events: none;
   }
   .card > * { position: relative; z-index: 1; }
   @keyframes rotateGlow { to { transform: rotate(360deg); } }
@@ -111,46 +89,49 @@
     to { opacity: 1; transform: scale(1) translateY(0); }
   }
 
-  /* ---------- تایتل نئونی ---------- */
   h1 {
-    font-size: clamp(1.5rem, 4vw, 2.6rem);
-    line-height: 1.7;
-    margin-bottom: 32px;
+    font-size: clamp(1.4rem, 3.5vw, 2.3rem);
+    line-height: 1.8; margin-bottom: 28px;
     background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
     background-size: 300% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: shineText 5s linear infinite;
-    font-weight: 800;
+    animation: shineText 5s linear infinite; font-weight: 800;
   }
   @keyframes shineText {
     0% { background-position: 0% 50%; }
     100% { background-position: 300% 50%; }
   }
 
-  /* ---------- دکمه‌ها ---------- */
+  .subtitle {
+    font-size: 1rem; opacity: 0.85; margin-bottom: 22px; line-height: 1.9;
+  }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent3), var(--accent2));
+    padding: 6px 18px; border-radius: 40px;
+    font-size: 0.85rem; font-weight: 700; margin-bottom: 18px;
+    box-shadow: 0 0 25px rgba(255,0,229,0.4);
+    animation: pulseBadge 2.5s ease-in-out infinite;
+  }
+  @keyframes pulseBadge {
+    0%, 100% { box-shadow: 0 0 20px rgba(255,0,229,0.35); }
+    50% { box-shadow: 0 0 40px rgba(0,240,255,0.6); }
+  }
+
   .btn {
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #fff;
-    padding: 16px 46px;
-    border-radius: 60px;
+    cursor: pointer; border: none; font-family: inherit;
+    font-size: 1.15rem; font-weight: 700; color: #fff;
+    padding: 16px 46px; border-radius: 60px;
     background: linear-gradient(135deg, var(--accent3), var(--accent2));
     background-size: 200% 200%;
-    box-shadow: 0 8px 30px rgba(123,47,247,0.5), 0 0 0 0 rgba(0,240,255,0.7);
+    box-shadow: 0 8px 30px rgba(123,47,247,0.5);
     transition: transform 0.25s cubic-bezier(.2,.9,.2,1), box-shadow 0.3s, background-position 0.5s;
     animation: pulseGlow 2.5s ease-in-out infinite;
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .btn::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
+    content: ''; position: absolute; top: 0; left: -100%;
     width: 100%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
     transition: left 0.6s;
@@ -167,80 +148,91 @@
     50% { box-shadow: 0 8px 30px rgba(255,0,229,0.6), 0 0 0 14px rgba(0,240,255,0); }
   }
 
-  /* ---------- صفحه انتخاب ---------- */
-  .options {
-    display: flex;
-    gap: 28px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 10px;
+  /* ---------- انتخاب زبان ---------- */
+  .lang-row {
+    display: flex; gap: 22px; justify-content: center;
+    flex-wrap: wrap; margin-top: 8px;
   }
-  .option-card {
-    cursor: pointer;
-    background: var(--glass);
-    border: 1px solid var(--glass-brd);
-    border-radius: 24px;
-    padding: 36px 30px;
-    width: 240px;
-    transition: transform 0.3s cubic-bezier(.2,.9,.2,1), box-shadow 0.3s, border-color 0.3s;
-    position: relative;
-    overflow: hidden;
+  .lang-card {
+    cursor: pointer; padding: 26px 34px; min-width: 190px;
+    background: var(--glass); border: 1px solid var(--glass-brd);
+    border-radius: 22px; transition: all 0.3s cubic-bezier(.2,.9,.2,1);
     animation: floatCard 4s ease-in-out infinite;
   }
-  .option-card:nth-child(2) { animation-delay: 0.8s; }
+  .lang-card:nth-child(2) { animation-delay: 0.8s; }
   @keyframes floatCard {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
+  .lang-card:hover {
+    transform: translateY(-14px) scale(1.05);
+    border-color: var(--accent);
+    box-shadow: 0 20px 50px rgba(0,240,255,0.35);
+  }
+  .lang-card .flag { font-size: 2.6rem; display: block; margin-bottom: 10px; animation: wobble 3s ease-in-out infinite; }
+  .lang-card h2 { font-size: 1.25rem; color: var(--accent); margin-bottom: 6px; }
+  .lang-card p { font-size: 0.9rem; opacity: 0.8; }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg) scale(1.1); }
+    75% { transform: rotate(8deg) scale(1.1); }
+  }
+
+  /* ---------- انتخاب حالت ---------- */
+  .options {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    justify-content: center; margin-top: 10px;
+  }
+  .option-card {
+    cursor: pointer; background: var(--glass);
+    border: 1px solid var(--glass-brd); border-radius: 24px;
+    padding: 36px 30px; width: 250px;
+    transition: transform 0.3s cubic-bezier(.2,.9,.2,1), box-shadow 0.3s, border-color 0.3s;
+    position: relative; overflow: hidden;
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  .option-card:nth-child(2) { animation-delay: 0.8s; }
   .option-card:hover {
     transform: translateY(-14px) scale(1.05);
     border-color: var(--accent);
     box-shadow: 0 20px 50px rgba(0,240,255,0.35);
   }
   .option-card .icon {
-    font-size: 3rem;
-    margin-bottom: 16px;
-    display: block;
+    font-size: 3rem; margin-bottom: 16px; display: block;
     animation: wobble 3s ease-in-out infinite;
-  }
-  @keyframes wobble {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-8deg) scale(1.1); }
-    75% { transform: rotate(8deg) scale(1.1); }
   }
   .option-card h2 { font-size: 1.3rem; margin-bottom: 10px; color: var(--accent); }
   .option-card p { font-size: 0.95rem; opacity: 0.8; }
 
   /* ---------- فرم ---------- */
-  .form-screen .card { max-width: 680px; }
+  .form-screen .card { max-width: 700px; }
   .back-btn {
-    position: absolute;
-    top: 20px; right: 20px;
+    position: absolute; top: 20px; right: 20px;
     background: rgba(255,255,255,0.1);
     border: 1px solid var(--glass-brd);
-    color: #fff;
-    font-family: inherit;
-    font-size: 0.95rem;
-    padding: 8px 18px;
-    border-radius: 40px;
-    cursor: pointer;
+    color: #fff; font-family: inherit;
+    font-size: 0.95rem; padding: 8px 18px;
+    border-radius: 40px; cursor: pointer;
     transition: background 0.3s, transform 0.2s;
+    z-index: 3;
   }
   .back-btn:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
 
+  .mode-pill {
+    display: inline-block; margin-bottom: 14px;
+    background: rgba(0,240,255,0.12);
+    border: 1px solid rgba(0,240,255,0.4);
+    padding: 5px 16px; border-radius: 30px;
+    font-size: 0.85rem; color: var(--accent);
+  }
+
   textarea {
-    width: 100%;
-    min-height: 130px;
-    margin: 20px 0;
-    padding: 18px;
-    border-radius: 18px;
+    width: 100%; min-height: 130px; margin: 16px 0;
+    padding: 18px; border-radius: 18px;
     border: 1px solid var(--glass-brd);
-    background: rgba(0,0,0,0.35);
-    color: #fff;
-    font-family: inherit;
-    font-size: 1.05rem;
-    resize: vertical;
-    outline: none;
+    background: rgba(0,0,0,0.35); color: #fff;
+    font-family: inherit; font-size: 1.05rem;
+    resize: vertical; outline: none;
     transition: border-color 0.3s, box-shadow 0.3s;
   }
   textarea:focus {
@@ -251,16 +243,12 @@
 
   /* ---------- لودینگ ---------- */
   .loader {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    margin-top: 24px;
+    display: none; flex-direction: column;
+    align-items: center; gap: 18px; margin-top: 24px;
   }
   .loader.show { display: flex; animation: screenIn 0.4s ease; }
   .spinner {
-    width: 64px; height: 64px;
-    border-radius: 50%;
+    width: 64px; height: 64px; border-radius: 50%;
     border: 4px solid rgba(255,255,255,0.15);
     border-top-color: var(--accent);
     border-right-color: var(--accent2);
@@ -269,9 +257,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .loader p { font-size: 1.05rem; opacity: 0.9; }
   .countdown {
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--accent);
+    font-size: 1.6rem; font-weight: 800; color: var(--accent);
     animation: countPulse 1s ease-in-out infinite;
   }
   @keyframes countPulse {
@@ -281,12 +267,8 @@
 
   /* ---------- نتیجه ---------- */
   .result {
-    display: none;
-    margin-top: 24px;
-    padding: 22px;
-    border-radius: 18px;
-    font-size: 1.15rem;
-    line-height: 1.9;
+    display: none; margin-top: 24px; padding: 22px;
+    border-radius: 18px; font-size: 1.1rem; line-height: 1.9;
     word-break: break-word;
     animation: resultPop 0.6s cubic-bezier(.2,.9,.2,1);
   }
@@ -316,28 +298,23 @@
     80% { transform: translateX(7px); }
   }
 
-  /* ---------- کپی ---------- */
   .copy-btn {
     margin-top: 14px;
     background: rgba(255,255,255,0.1);
     border: 1px solid var(--glass-brd);
-    color: #fff;
-    font-family: inherit;
-    padding: 10px 24px;
-    border-radius: 40px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+    color: #fff; font-family: inherit;
+    padding: 10px 24px; border-radius: 40px;
+    cursor: pointer; transition: background 0.3s, transform 0.2s;
   }
   .copy-btn:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
 
   /* ---------- ریسپانسیو ---------- */
   @media (max-width: 600px) {
     .card { padding: 32px 22px; border-radius: 22px; }
-    .options { gap: 18px; }
-    .option-card { width: 100%; }
+    .options, .lang-row { gap: 18px; }
+    .option-card, .lang-card { width: 100%; min-width: 0; }
   }
 
-  /* احترام به کاهش انیمیشن */
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
@@ -345,16 +322,16 @@
 </head>
 <body>
 
-<!-- ذرات پس‌زمینه -->
 <div class="particles" id="particles"></div>
 
 <!-- ============ صفحه ۱: خوش‌آمد ============ -->
 <section class="screen active" id="screen-home">
   <div class="card">
+    <span class="badge">نسخه 2.0 — English + فارسی</span>
     <h1>
       سلام ! تو هم دوست داری پیام هات رمزنگاری شده ارسال بشه؟<br>
       خب پس ما کمکت میکنیم 😎<br>
-      ما یه زبان رمز نگاری اختراع کردیم فعلا فقط برای حروف اینگیلیسی ،<br>
+      ما یه زبان رمز نگاری اختراع کردیم ، الان هم برای حروف اینگیلیسی و هم فارسی !<br>
       که متن ورودیت رو تبدیل به عدد و عدد ورودیت رو تبدیل به حروف میکنه<br>
       این یعنی تو و دوستت می تونید مخفیانه با هم صحبت کنید !<br>
       اگه دوست داری دکمه زیر رو بزن 👇
@@ -363,7 +340,26 @@
   </div>
 </section>
 
-<!-- ============ صفحه ۲: انتخاب ============ -->
+<!-- ============ صفحه ۲: انتخاب زبان ============ -->
+<section class="screen" id="screen-lang">
+  <div class="card">
+    <h1>کدوم زبان رو می‌خوای؟</h1>
+    <div class="lang-row">
+      <div class="lang-card" data-lang="en">
+        <span class="flag">🇬🇧</span>
+        <h2>English</h2>
+        <p>حروف انگلیسی</p>
+      </div>
+      <div class="lang-card" data-lang="fa">
+        <span class="flag">🇮🇷</span>
+        <h2>فارسی</h2>
+        <p>حروف فارسی</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ صفحه ۳: انتخاب حالت ============ -->
 <section class="screen" id="screen-choose">
   <div class="card">
     <h1>چه کاری برات انجام بدیم؟</h1>
@@ -382,22 +378,21 @@
   </div>
 </section>
 
-<!-- ============ صفحه ۳: فرم ============ -->
+<!-- ============ صفحه ۴: فرم ============ -->
 <section class="screen form-screen" id="screen-form">
   <div class="card">
     <button class="back-btn" id="backBtn">→ برگشت</button>
+    <span class="mode-pill" id="modePill">🇬🇧 English</span>
     <h1 id="formTitle">رمز گشایی</h1>
     <textarea id="inputArea" placeholder=""></textarea>
     <button class="btn" id="submitBtn">تایید ✅</button>
 
-    <!-- لودینگ -->
     <div class="loader" id="loader">
       <div class="spinner"></div>
       <p id="loaderText">در حال رمزگشایی...</p>
       <div class="countdown" id="countdown">۷</div>
     </div>
 
-    <!-- نتیجه -->
     <div class="result" id="result"></div>
     <button class="copy-btn" id="copyBtn" style="display:none;">📋 کپی نتیجه</button>
   </div>
@@ -405,45 +400,84 @@
 
 <script>
 /* =========================================================
-   جدول زبان Mobin — نسخه 1.0
+   زبان Mobin — نسخه 2.0
    ========================================================= */
-const MOBIN = {
-  'A': '19',
-  'B': '855578',
-  'C': '12',
-  'D': '11',
-  'E': '99',
-  'F': '96',
-  'G': '82',
-  'H': '55',
-  'I': '85858',
-  'J': '1000',
-  'K': '183',
-  'L': '1973',
-  'M': '109278',
-  'N': '1873926',
-  'O': '09388',
-  'P': '1126',
-  'Q': '0101',
-  'R': '298',
-  'S': '029',
-  'T': '126',
-  'U': '2983',
-  'V': '9852',
-  'W': '838',
-  'X': '1201',
-  'Y': '2982',
-  'Z': '85'
+const MOBIN_EN = {
+  'A': '19',      'B': '855578',  'C': '12',      'D': '11',
+  'E': '99',      'F': '96',      'G': '82',      'H': '55',
+  'I': '85858',   'J': '1000',    'K': '183',     'L': '1973',
+  'M': '109278',  'N': '1873926', 'O': '09388',   'P': '1126',
+  'Q': '0101',    'R': '298',     'S': '029',     'T': '126',
+  'U': '2983',    'V': '9852',    'W': '838',     'X': '1201',
+  'Y': '2982',    'Z': '85'
 };
-const REVERSE = {};
-for (const [k, v] of Object.entries(MOBIN)) REVERSE[v] = k;
+
+const MOBIN_FA = {
+  'ا': '1234567',
+  'آ': '1930',
+  'ب': '47260',
+  'پ': '83630',
+  'ث': '123456788',
+  'ت': '28620',
+  'ج': '436370',
+  'چ': '3773730',
+  'ح': '7373830',
+  'خ': '3883730',
+  'د': '4637180',
+  'ذ': '6472910',
+  'ر': '6473920',
+  'ز': '47470',
+  'ژ': '37380',
+  'س': '73830',
+  'ش': '838370',
+  'ص': '16380',
+  'ض': '183830',
+  'ط': '473820',
+  'ظ': '26281990',
+  'ع': '6371830',
+  'غ': '3928820',
+  'ف': '12379920',
+  'ق': '82820',
+  'ک': '527180',
+  'گ': '12662720',
+  'ل': '2772280',
+  'م': '111111111111111111110',
+  'ن': '3772280',
+  'و': '82720',
+  'ه': '2617830',
+  'ی': '2727280'
+};
+
+// نرمال‌سازی: ي→ی ، ك→ک (قانون ۷)
+function normalizeFa(ch) {
+  if (ch === 'ي' || ch === 'ى') return 'ی';
+  if (ch === 'ك') return 'ک';
+  if (ch === 'ة') return 'ه';
+  if (ch === 'أ' || ch === 'إ') return 'ا';
+  return ch;
+}
+
+// ساخت جدول معکوس
+function buildReverse(map, isFa) {
+  const rev = {};
+  for (const [k, v] of Object.entries(map)) {
+    rev[v] = k;
+    if (isFa) {
+      // اگر کد قبلاً چیز دیگری بود، اولی نگه داشته می‌شود
+    }
+  }
+  return rev;
+}
+
+const REVERSE_EN = buildReverse(MOBIN_EN, false);
+const REVERSE_FA = buildReverse(MOBIN_FA, true);
 
 /* =========================================================
    ذرات پس‌زمینه
    ========================================================= */
 (function createParticles() {
   const container = document.getElementById('particles');
-  const count = 28;
+  const count = 30;
   for (let i = 0; i < count; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
@@ -460,10 +494,11 @@ for (const [k, v] of Object.entries(MOBIN)) REVERSE[v] = k;
 })();
 
 /* =========================================================
-   ناوبری صفحه‌ها
+   ناوبری
    ========================================================= */
 const screens = {
   home: document.getElementById('screen-home'),
+  lang: document.getElementById('screen-lang'),
   choose: document.getElementById('screen-choose'),
   form: document.getElementById('screen-form')
 };
@@ -475,9 +510,10 @@ function showScreen(name) {
 }
 
 /* =========================================================
-   وضعیت فعلی
+   وضعیت
    ========================================================= */
-let currentMode = 'decode'; // decode | encode
+let currentMode = 'decode';
+let currentLang = 'en';
 let countdownTimer = null;
 let lastResultText = '';
 
@@ -489,27 +525,25 @@ const loaderText = document.getElementById('loaderText');
 const countdownEl = document.getElementById('countdown');
 const resultEl = document.getElementById('result');
 const copyBtn = document.getElementById('copyBtn');
+const modePill = document.getElementById('modePill');
 
 /* =========================================================
    دکمه‌ها
    ========================================================= */
-document.getElementById('enterBtn').addEventListener('click', () => {
-  showScreen('choose');
+document.getElementById('enterBtn').addEventListener('click', () => showScreen('lang'));
+
+document.querySelectorAll('.lang-card').forEach(card => {
+  card.addEventListener('click', () => {
+    currentLang = card.dataset.lang;
+    showScreen('choose');
+  });
 });
 
 document.querySelectorAll('.option-card').forEach(card => {
   card.addEventListener('click', () => {
     currentMode = card.dataset.mode;
     resetForm();
-    if (currentMode === 'decode') {
-      formTitle.textContent = '🔓 رمز گشایی (عدد → حرف)';
-      inputArea.placeholder = 'کدها را با فاصله وارد کن، مثلاً:\n19 855578 12\nبرای فاصله بین کلمات از / استفاده کن';
-      loaderText.textContent = 'در حال رمزگشایی...';
-    } else {
-      formTitle.textContent = '🔐 رمز نگاری (حرف → عدد)';
-      inputArea.placeholder = 'متن انگلیسی خود را وارد کن، مثلاً:\nHELLO WORLD';
-      loaderText.textContent = 'در حال رمزنگاری...';
-    }
+    updateFormUI();
     showScreen('form');
   });
 });
@@ -530,8 +564,29 @@ copyBtn.addEventListener('click', async () => {
 });
 
 /* =========================================================
-   ریست فرم
+   UI فرم
    ========================================================= */
+function updateFormUI() {
+  const langLabel = currentLang === 'en' ? '🇬🇧 English' : '🇮🇷 فارسی';
+  modePill.textContent = langLabel;
+
+  if (currentMode === 'decode') {
+    formTitle.textContent = '🔓 رمز گشایی (عدد → حرف)';
+    inputArea.placeholder = currentLang === 'en'
+      ? 'کدها را با فاصله وارد کن، مثلاً:\n19 855578 12\nبرای فاصله بین کلمات از / استفاده کن'
+      : 'کدها را با فاصله وارد کن، مثلاً:\n029 09388 1973 19 109278\nبرای فاصله بین کلمات از / استفاده کن';
+    loaderText.textContent = 'در حال رمزگشایی...';
+    inputArea.style.direction = 'ltr';
+  } else {
+    formTitle.textContent = '🔐 رمز نگاری (حرف → عدد)';
+    inputArea.placeholder = currentLang === 'en'
+      ? 'متن انگلیسی خود را وارد کن، مثلاً:\nHELLO WORLD'
+      : 'متن فارسی خود را وارد کن، مثلاً:\nسلام دنیا';
+    loaderText.textContent = 'در حال رمزنگاری...';
+    inputArea.style.direction = currentLang === 'en' ? 'ltr' : 'rtl';
+  }
+}
+
 function resetForm() {
   clearTimers();
   inputArea.value = '';
@@ -549,26 +604,48 @@ function clearTimers() {
 }
 
 /* =========================================================
-   اعتبارسنجی ورودی
+   اعتبارسنجی
    ========================================================= */
 function validateEncode(text) {
   if (!text.trim()) return 'متن خالی است! چیزی وارد کن.';
-  // فقط حروف انگلیسی و فاصله مجاز است
-  const bad = text.match(/[^A-Za-z\s]/g);
-  if (bad) {
-    const unique = [...new Set(bad)].join(' ');
-    return 'کاراکتر(های) غیرمجاز: ' + unique + '\nفقط حروف انگلیسی و فاصله مجاز است.';
+
+  if (currentLang === 'en') {
+    const bad = text.match(/[^A-Za-z\s]/g);
+    if (bad) {
+      const unique = [...new Set(bad)].join(' ');
+      return 'کاراکتر(های) غیرمجاز: ' + unique + '\nفقط حروف انگلیسی و فاصله مجاز است.';
+    }
+  } else {
+    // فارسی: فقط حروف فارسی + فاصله + نیم‌فاصله
+    const bad = text.match(/[^\u0600-\u06FF\s\u200c]/g);
+    if (bad) {
+      const unique = [...new Set(bad)].join(' ');
+      return 'کاراکتر(های) غیرمجاز: ' + unique + '\nفقط حروف فارسی و فاصله مجاز است.';
+    }
+    // بررسی اینکه همه حروف در جدول موجود باشند
+    const unknownChars = [];
+    for (let ch of text) {
+      if (/\s/.test(ch)) continue;
+      if (ch === '\u200c') continue;
+      const n = normalizeFa(ch);
+      if (!MOBIN_FA[n]) unknownChars.push(ch);
+    }
+    if (unknownChars.length) {
+      const unique = [...new Set(unknownChars)].join(' ');
+      return 'حرف(های) پشتیبانی‌نشده: ' + unique + '\nاین حروف در جدول زبان Mobin نیستند.';
+    }
   }
   return null;
 }
 
 function validateDecode(text) {
   if (!text.trim()) return 'کد خالی است! کدها را وارد کن.';
+  const rev = currentLang === 'en' ? REVERSE_EN : REVERSE_FA;
   const tokens = text.split(/\s+/);
   const unknown = [];
   for (const t of tokens) {
     if (t === '/') continue;
-    if (!REVERSE[t]) unknown.push(t);
+    if (!rev[t]) unknown.push(t);
   }
   if (unknown.length) {
     return 'کد(های) نامعتبر: ' + unknown.slice(0, 5).join(', ') +
@@ -582,27 +659,40 @@ function validateDecode(text) {
    تبدیل‌ها
    ========================================================= */
 function encodeText(text) {
-  const out = [];
-  for (const ch of text.toUpperCase()) {
-    if (ch === ' ' || ch === '\n') out.push('/');
-    else if (MOBIN[ch]) out.push(MOBIN[ch]);
-    else out.push('?');
+  if (currentLang === 'en') {
+    const out = [];
+    for (const ch of text.toUpperCase()) {
+      if (/\s/.test(ch)) out.push('/');
+      else if (MOBIN_EN[ch]) out.push(MOBIN_EN[ch]);
+      else out.push('?');
+    }
+    return out.join(' ');
+  } else {
+    const out = [];
+    for (let ch of text) {
+      if (/\s/.test(ch)) { out.push('/'); continue; }
+      if (ch === '\u200c') { out.push('/'); continue; }
+      const n = normalizeFa(ch);
+      if (MOBIN_FA[n]) out.push(MOBIN_FA[n]);
+      else out.push('?');
+    }
+    return out.join(' ');
   }
-  return out.join(' ');
 }
 
 function decodeText(text) {
+  const rev = currentLang === 'en' ? REVERSE_EN : REVERSE_FA;
   const out = [];
   for (const t of text.split(/\s+/)) {
     if (t === '/') out.push(' ');
-    else if (REVERSE[t]) out.push(REVERSE[t]);
+    else if (rev[t]) out.push(rev[t]);
     else out.push('?');
   }
   return out.join('');
 }
 
 /* =========================================================
-   ارسال فرم
+   ارسال
    ========================================================= */
 submitBtn.addEventListener('click', () => {
   clearTimers();
@@ -615,23 +705,20 @@ submitBtn.addEventListener('click', () => {
   // --- رمزنگاری: فوری ---
   if (currentMode === 'encode') {
     const err = validateEncode(raw);
-    if (err) {
-      showError(err);
-      return;
-    }
+    if (err) { showError(err); return; }
+
     inputArea.disabled = true;
     submitBtn.style.display = 'none';
     loader.classList.add('show');
     loaderText.textContent = 'در حال رمزنگاری...';
     countdownEl.style.display = 'none';
 
-    // انیمیشن کوتاه برای حس خوب
     setTimeout(() => {
       loader.classList.remove('show');
       const code = encodeText(raw);
       lastResultText = code;
       resultEl.className = 'result ok show';
-      resultEl.innerHTML = '🔐 کد شما:<br><span style="font-size:1.3rem;font-weight:800;letter-spacing:1px;">' + escapeHtml(code) + '</span>';
+      resultEl.innerHTML = '🔐 کد شما:<br><span style="font-size:1.25rem;font-weight:800;letter-spacing:1px;word-break:break-all;">' + escapeHtml(code) + '</span>';
       copyBtn.style.display = 'inline-block';
     }, 1200);
     return;
@@ -639,10 +726,7 @@ submitBtn.addEventListener('click', () => {
 
   // --- رمزگشایی: ۷ ثانیه ---
   const err = validateDecode(raw);
-  if (err) {
-    showError(err);
-    return;
-  }
+  if (err) { showError(err); return; }
 
   inputArea.disabled = true;
   submitBtn.style.display = 'none';
@@ -670,7 +754,7 @@ submitBtn.addEventListener('click', () => {
 });
 
 /* =========================================================
-   نمایش خطا
+   کمکی
    ========================================================= */
 function showError(msg) {
   resultEl.className = 'result err show';
@@ -678,11 +762,8 @@ function showError(msg) {
   copyBtn.style.display = 'none';
 }
 
-/* =========================================================
-   کمکی‌ها
-   ========================================================= */
 function escapeHtml(str) {
-  return str.replace(/[&<>"']/g, c => ({
+  return String(str).replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
 }
@@ -692,7 +773,7 @@ function toPersianNum(n) {
 }
 
 /* =========================================================
-   میان‌بر: Enter در textarea = تایید
+   Ctrl+Enter = تایید
    ========================================================= */
 inputArea.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
