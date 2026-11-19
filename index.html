@@ -292,6 +292,57 @@ button:hover {
     padding: 30px 0;
 }
 
+/* PASSWORD INPUT (THEME MATCHED) */
+
+.pass-input {
+    width: 100%;
+    padding: 15px 18px;
+    background: rgba(0,255,100,.05);
+    border: 1px solid rgba(0,255,136,.5);
+    border-radius: 9px;
+    color: var(--green);
+    font-family: monospace;
+    font-size: 22px;
+    letter-spacing: 12px;
+    text-align: center;
+    direction: ltr;
+    outline: none;
+    transition: .3s;
+    margin-top: 10px;
+}
+
+.pass-input::placeholder {
+    color: #2d5c43;
+    letter-spacing: 6px;
+    font-size: 14px;
+}
+
+.pass-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 20px rgba(0,255,136,.35);
+    background: rgba(0,255,100,.09);
+}
+
+.pass-error {
+    color: #ff5c5c;
+    font-size: 12px;
+    margin-top: 12px;
+    min-height: 16px;
+    direction: rtl;
+}
+
+.shake {
+    animation: shake .4s;
+}
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+}
+
 </style>
 </head>
 
@@ -324,12 +375,49 @@ button:hover {
         DEMO MODE — این محیط تستی هست    .
     </div>
 
-    <button class="full" onclick="enterPanel()">
+    <button class="full" onclick="showPassword()">
         ورود به پنل
     </button>
 
     <div class="status" style="margin-top:20px">
         SYSTEM STATUS: OPERATIONAL
+    </div>
+
+</section>
+
+<!-- PASSWORD -->
+
+<section id="password" class="panel center hidden">
+
+    <span class="badge">SECURITY LAYER</span>
+
+    <h2>احراز هویت</h2>
+
+    <p>
+        برای دسترسی به پنل مدیریت، رمز عبور را وارد کنید.
+    </p>
+
+    <input
+        type="password"
+        id="passInput"
+        class="pass-input"
+        placeholder="ENTER PASSWORD"
+        maxlength="4"
+        autocomplete="off"
+    >
+
+    <div class="pass-error" id="passError"></div>
+
+    <button class="full" onclick="checkPassword()">
+        🔓 تأیید و ورود
+    </button>
+
+    <button class="full" onclick="backToLogin()" style="margin-top:10px">
+        بازگشت
+    </button>
+
+    <div class="status" style="margin-top:20px">
+        SECURE CONNECTION: ACTIVE
     </div>
 
 </section>
@@ -355,7 +443,7 @@ button:hover {
 
         <div>
             <p>تعداد پیام‌ها</p>
-            <strong>04 MESSAGES</strong>
+            <strong>07 MESSAGES</strong>
         </div>
     </div>
 
@@ -410,7 +498,7 @@ button:hover {
     <div class="terminal">
         > AI ENGINE: SUCCESS<br>
         > DECRYPTION: COMPLETED<br>
-        > MESSAGES FOUND: 04<br>
+        > MESSAGES FOUND: 07<br>
         > STATUS: READY
     </div>
 
@@ -475,7 +563,7 @@ function drawMatrix() {
 
     for (let i = 0; i < drops.length; i++) {
 
-        const text = Math.random() > .7 ? "1" : "0";
+        const text = Math.random() > .5 ? "1" : "0";
 
         ctx.fillText(text, i * 17, drops[i] * 17);
 
@@ -489,16 +577,16 @@ function drawMatrix() {
 
 setInterval(drawMatrix, 45);
 
-// MESSAGES
+// MESSAGES (7 items — emojis counted separately)
 
 const messages = [
     "سکس باید احساسی باشه",
     "چیکار کنم من تو خیلی شلی",
     "از اکسم یاد بگیر اون خیلی جویگیر بود",
-    "شما خیلی زیبایی ",
-,"🙂"
-,"❤️" 
-   "ERROR 000"
+    "شما خیلی زیبایی",
+    "❤️",
+    "😔",
+    "ERROR 000"
 ];
 
 let codes = [];
@@ -515,11 +603,77 @@ function generateCodes() {
 
 }
 
+// PASSWORD GATE
+
+const CORRECT_PASSWORD = "1239";
+
+function showPassword() {
+
+    document.getElementById("login").classList.add("hidden");
+
+    document.getElementById("password").classList.remove("hidden");
+
+    const input = document.getElementById("passInput");
+    input.value = "";
+    document.getElementById("passError").innerText = "";
+    input.focus();
+
+}
+
+function backToLogin() {
+
+    document.getElementById("password").classList.add("hidden");
+
+    document.getElementById("login").classList.remove("hidden");
+
+}
+
+function checkPassword() {
+
+    const input = document.getElementById("passInput");
+    const error = document.getElementById("passError");
+    const panel = document.getElementById("password");
+
+    if (input.value.trim() === CORRECT_PASSWORD) {
+
+        error.innerText = "";
+
+        enterPanel();
+
+    } else {
+
+        error.innerText = "رمز عبور اشتباه است. دوباره تلاش کنید.";
+
+        panel.classList.remove("shake");
+        void panel.offsetWidth;
+        panel.classList.add("shake");
+
+        input.value = "";
+        input.focus();
+
+    }
+
+}
+
+document.addEventListener("keydown", (e) => {
+
+    if (e.key === "Enter") {
+
+        const passPanel = document.getElementById("password");
+
+        if (!passPanel.classList.contains("hidden")) {
+            checkPassword();
+        }
+
+    }
+
+});
+
 // NAVIGATION
 
 function enterPanel() {
 
-    document.getElementById("login").classList.add("hidden");
+    document.getElementById("password").classList.add("hidden");
 
     document.getElementById("inbox").classList.remove("hidden");
 
